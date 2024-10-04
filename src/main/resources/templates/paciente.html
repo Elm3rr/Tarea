@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head('PACIENTE')}"></head>
+<body>
+    <div th:replace="~{layout :: page_navbar}"></div>
+
+    <div th:fragment="content">
+        <h1 class="text-center my-4">Administración de Pacientes</h1>
+        <a href="/paciente/guardar" class="btn btn-primary">Nuevo Paciente</a>
+        <form action="/pacientes" method="get">
+            <div class="input-group mb-3">
+                <select name="estado" class="form-select" aria-label="Selecciona el estado">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Altas">Altas</option>
+                    <option value="Fallecido">Fallecido</option>
+                </select>
+                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o codigo" aria-label="Buscar">
+                <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>CODIGO</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>FECHA NACIMIENTO</th>
+                    <th>CUI</th>
+                    <th>SEXO</th>
+                    <th>ESTADO</th>
+                    <th>HISTORIA MEDICA</th>
+                    <th>ULT. ACTUALIZACION</th>
+                    <th>OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="paciente : ${pacientes}">
+                    <td th:text="${paciente.id}"></td>
+                    <td th:text="${paciente.nombre}"></td>
+                    <td th:text="${paciente.apellido}"></td>
+                    <td th:text="${paciente.fecha_nacimiento.toString().substring(0,10)}"></td>
+                    <td th:text="${paciente.cui}"></td>
+                    <td th:text="${paciente.sexo}"></td>
+                    <td th:text="${paciente.estado}"></td>
+                    <td th:text="${paciente.historia_medica}"></td>
+                    <td th:text="${paciente.fecha_actualizacion.toString().substring(0,10)}"></td>
+                    <td Style="white-space:nowrap">
+                        <a class="btn btn-primary btn-sm" th:href="@{/paciente/guardar(id=${paciente.id})}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/paciente/eliminar(id=${paciente.id})}" onclick="return confirm('Estas seguro?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{layout :: page_footer}"></div>
+</body>
+</html>

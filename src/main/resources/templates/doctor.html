@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head('DOCTORES')}"></head>
+<body>
+    <div th:replace="~{layout :: page_navbar}"></div>
+
+    <div th:fragment="content">
+        <h1 class="text-center my-4">Administración de Doctores</h1>
+        <a href="/doctor/guardar" class="btn btn-primary">Crear Doctor</a>
+        <form action="/doctores" method="get">
+            <div class="input-group mb-3">
+                <select name="estado" class="form-select" aria-label="Selecciona el estado">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Licencia">Licencia</option>
+                    <option value="Retirado">Retirado</option>
+                </select>
+                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o colegiado" aria-label="Buscar">
+                <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>COD. COLEGIADO</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>CUI</th>
+                    <th>SEXO</th>
+                    <th>ESTADO</th>
+                    <th>ESPECIALIDAD</th>
+                    <th>ACTIV. DESCRIPCION</th>
+                    <th>ULT. ACTUALIZACION</th>
+                    <th>FOTO</th>
+                    <th>OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="doctor : ${doctores}">
+                    <td th:text="${doctor.colegiado}"></td>
+                    <td th:text="${doctor.nombre}"></td>
+                    <td th:text="${doctor.apellido}"></td>
+                    <td th:text="${doctor.cui}"></td>
+                    <td th:text="${doctor.sexo}"></td>
+                    <td th:text="${doctor.estado}"></td>
+                    <td th:text="${doctor.especialidad}"></td>
+                    <td th:text="${doctor.descripcion}"></td>
+                    <td th:text="${doctor.fecha_actualizacion.toString().substring(0,10)}"></td>
+                    <td>
+                        <img th:src="@{'/images/' + ${doctor.imagen}}" alt="Doctor imagen" width="100">
+                    </td>
+                    <td Style="white-space:nowrap">
+                        <a class="btn btn-primary btn-sm" th:href="@{/doctor/guardar(id=${doctor.id})}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/doctor/eliminar(id=${doctor.id})}" onclick="return confirm('Estas seguro?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{layout :: page_footer}"></div>
+</body>
+</html>

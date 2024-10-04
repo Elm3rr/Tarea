@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head('ENFERMERA')}"></head>
+<body>
+    <div th:replace="~{layout :: page_navbar}"></div>
+
+    <div th:fragment="content">
+        <h1 class="text-center my-4">Administración de Enfermeras</h1>
+        <a href="/enfermera/guardar" class="btn btn-primary">Nueva Enfermera</a>
+        <form action="/enfermeras" method="get">
+            <div class="input-group mb-3">
+                <select name="estado" class="form-select" aria-label="Selecciona el estado">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Licencia">Licencia</option>
+                    <option value="Retirado">Retirado</option>
+                </select>
+                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o colegiado" aria-label="Buscar">
+                <button type="submit" class="btn btn-outline-secondary">Buscar</button>
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>CODIGO DE AUXILIAR</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>CUI</th>
+                    <th>SEXO</th>
+                    <th>ESTADO</th>
+                    <th>SERVICIO ASIG.</th>
+                    <th>ACTIVIDADES</th>
+                    <th>ULT. ACTUALIZACION</th>
+                    <th>FOTO</th>
+                    <th>OPCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="enfermera : ${enfermeras}">
+                    <td th:text="${enfermera.codigoAux}"></td>
+                    <td th:text="${enfermera.nombre}"></td>
+                    <td th:text="${enfermera.apellido}"></td>
+                    <td th:text="${enfermera.cui}"></td>
+                    <td th:text="${enfermera.sexo}"></td>
+                    <td th:text="${enfermera.estado}"></td>
+                    <td th:text="${enfermera.servicio}"></td>
+                    <td th:text="${enfermera.descripcion}"></td>
+                    <td th:text="${enfermera.fecha_actualizacion.toString().substring(0,10)}"></td>
+                    <td>
+                        <img th:src="@{'/images/' + ${enfermera.imagen}}" alt="Enfermera imagen" width="100">
+                    </td>
+                    <td Style="white-space:nowrap">
+                        <a class="btn btn-primary btn-sm" th:href="@{/enfermera/guardar(id=${enfermera.id})}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/enfermera/eliminar(id=${enfermera.id})}" onclick="return confirm('Estas seguro?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{layout :: page_footer}"></div>
+</body>
+</html>

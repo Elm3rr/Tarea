@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head('FORMULARIO')}"></head>
+<body>
+    <div th:replace="~{layout :: page_navbar}"></div>
+
+    <div th:fragment="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto rounded border p-4 m-4">
+                    <h2 class="text-center mb-5" th:text="${#strings.isEmpty(paciente.id) ? 'Nuevo Paciente' : 'Actualización de Datos'}"></h2>
+                    <form action="#" method="post" enctype="multipart/form-data" th:object="${request}">
+
+                        <!-- CODIGO: Solo visible al actualizar -->
+                        <div class="row mb-3" th:if="${!#strings.isEmpty(paciente.id)}">
+                            <label class="col-sm-4 col-form-label">Codigo</label>
+                            <div class="col-sm-8">
+                                <input readonly class="form-control-plaintext" th:value="${paciente.id}">
+                            </div>
+                        </div>
+
+                         <!-- fecha de nacimiento -->
+                         <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Fecha de Nacimiento</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" th:field="*{fecha_nacimiento}">
+                                <p th:if="${#fields.hasErrors('fecha_nacimiento')}" th:errorclass="text-danger" th:errors="*{fecha_nacimiento}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="*{nombre}">
+                                <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="text-danger" th:errors="*{nombre}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Apellido -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Apellido</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="*{apellido}">
+                                <p th:if="${#fields.hasErrors('apellido')}" th:errorclass="text-danger" th:errors="*{apellido}"></p>
+                            </div>
+                        </div>
+
+                        <!-- CUI -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">CUI</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="*{cui}">
+                                <p th:if="${#fields.hasErrors('cui')}" th:errorclass="text-danger" th:errors="*{cui}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Email</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="*{email}">
+                                <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger" th:errors="*{email}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Teléfono</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" th:field="*{telefono}">
+                                <p th:if="${#fields.hasErrors('telefono')}" th:errorclass="text-danger" th:errors="*{telefono}"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Historia Medica -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Hsitoria Medica</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" th:field="*{historia_medica}" rows="5"></textarea>
+                                <p th:if="${#fields.hasErrors('historia_medica')}" th:errorclass="text-danger" th:errors="*{historia_medica}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Estado</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" th:field="*{estado}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                    <option value="Altas">Altas</option>
+                                    <option value="Fallecido">Fallecido</option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('estado')}" th:errorclass="text-danger" th:errors="*{estado}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Sexo -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Sexo</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" th:field="*{sexo}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="femenino">Femenino</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('sexo')}" th:errorclass="text-danger" th:errors="*{sexo}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Imagen: Solo visible al actualizar -->
+                        <div class="row mb-3" th:if="${!#strings.isEmpty(paciente.id)}">
+                            <div class="offset-sm-4 col-sm-8">
+                                <img th:src="@{'/images/' + ${paciente.imagen}}" alt="Paciente imagen" width="100">
+                            </div>
+                        </div>
+
+                        <!-- Subir Imagen -->
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label">Imagen</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="file" th:field="*{imagen}">
+                                <p th:if="${#fields.hasErrors('imagen')}" th:errorclass="text-danger" th:errors="*{imagen}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Última Actualización: Solo visible al actualizar -->
+                        <div class="row mb-3" th:if="${!#strings.isEmpty(paciente.id)}">
+                            <label class="col-sm-4 col-form-label">Última Actualización:</label>
+                            <div class="col-sm-8">
+                                <input readonly class="form-control-plaintext" th:value="${paciente.fecha_actualizacion}">
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="row">
+                            <div class="offset-sm-4 col-sm-4 d-grid">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                            <div class="col-sm-4 d-grid">
+                                <a class="btn btn-outline-primary" href="/pacientes" role="button">Cancelar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{layout :: page_footer}"></div>
+</body>
+</html>

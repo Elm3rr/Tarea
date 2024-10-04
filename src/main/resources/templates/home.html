@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head('MENU')}"></head>
+<body>
+    <div th:replace="~{layout :: page_navbar}"></div>
+
+    <div th:fragment="content">
+        <h1>Bienvenido a la página de Bienvenida</h1>
+    </div>
+
+    <div th:replace="~{layout :: page_footer}"></div>
+</body>
+</html>
